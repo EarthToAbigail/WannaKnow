@@ -1,0 +1,3 @@
+# Ignore all the pycache files
+_pycache_/
+*.pyc

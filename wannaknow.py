@@ -107,10 +107,12 @@ def main(stdscr):
 
         proc_head(term_2, col_2, col_3, 7, 8)
 
-        o_procs = stats['processes']['other']
+        # o_procs = stats['processes']['other']
+        procs = stats['processes']
 
         curr = term_2.getyx()
-        num_o_procs = len(stats['processes']['other'].items())
+        # num_o_procs = len(stats['processes']['other'].items())
+        num_procs = len(stats['processes'].items())
 
         row = 0
         for c in range(curr[0], term_size[0] - 1):
@@ -119,14 +121,14 @@ def main(stdscr):
             col_3 = (curr[0], curr[1] + 35)
             col_4 = (curr[0], curr[1] + 50)
 
-            if o_procs[row]['user'] == 'root':
-                proc_row(term_2, o_procs, col_2, col_3, col_4, row, 2)
+            if procs[row]['user'] == 'root':
+                proc_row(term_2, procs, col_2, col_3, col_4, row, 2)
 
-            elif o_procs[row]['user'] == stats['users'][0]['name']:
-                proc_row(term_2, o_procs, col_2, col_3, col_4, row, 6)
+            elif procs[row]['user'] == stats['users'][0]['name']:
+                proc_row(term_2, procs, col_2, col_3, col_4, row, 6)
 
             else:
-                proc_row(term_2, o_procs, col_2, col_3, col_4, row, 5)
+                proc_row(term_2, procs, col_2, col_3, col_4, row, 5)
             row += 1
 
         term_2.refresh()
@@ -141,7 +143,8 @@ def main(stdscr):
 
         curr = term_3.getyx()
         h = term_size[0] - 1
-        remains = num_o_procs - row
+        # remains = num_o_procs - row
+        remains = num_procs - row
 
         if h > remains:
             h = remains
@@ -151,28 +154,17 @@ def main(stdscr):
             col_3 = (curr[0], curr[1] + 35)
             col_4 = (curr[0], curr[1] + 50)
 
-            if o_procs[row]['user'] == 'root':
-                proc_row(term_3, o_procs, col_2, col_3, col_4, row, 2)
+            if procs[row]['user'] == 'root':
+                proc_row(term_3, procs, col_2, col_3, col_4, row, 2)
 
-            elif o_procs[row]['user'] == stats['users'][0]['name']:
-                proc_row(term_3, o_procs, col_2, col_3, col_4, row, 6)
+            elif procs[row]['user'] == stats['users'][0]['name']:
+                proc_row(term_3, procs, col_2, col_3, col_4, row, 6)
             else:
-                proc_row(term_3, o_procs, col_2, col_3, col_4, row, 5)
+                proc_row(term_3, procs, col_2, col_3, col_4, row, 5)
             row += 1
 
             # term_3.noutrefresh()
         term_3.refresh()
-
-        # stdscr.addstr(c, 60, 'APPLE\n', curses.color_pair(3))
-        # c = c + 1
-        # a_procs = stats['processes']['apple']
-        # for a in range(0, len(a_procs.items())):
-        #     # parent = a_procs[a]['parent']
-        #     proc = str( a_procs[a]['pid']) + '    ' + a_procs[a]['name'] + '    ' + \
-        #             str(a_procs[a]['user']) + '    ' + str(a_procs[a]['parent'])
-        #     stdscr.addstr(c, 60, proc + '\n', curses.color_pair(1))
-        #     c += 1
-
 
         #DO NOT CHANGE BELOW THIS LINE
         # stdscr.refresh()

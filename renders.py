@@ -2,7 +2,11 @@ import curses
 
 def proc_row(window, proc, col_2, col_3, col_4, idx, color):
     window.addstr(str(proc[idx]['pid']), curses.color_pair(color))
-    window.addstr(col_2[0], col_2[1], str( proc[idx]['name']), curses.color_pair(color))
+    if 'apple' in proc[idx]['name']:
+        name = str(proc[idx]['name']).split('apple')[1]
+        window.addstr(col_2[0], col_2[1], name, curses.color_pair(7))
+    else:
+        window.addstr(col_2[0], col_2[1], str( proc[idx]['name']), curses.color_pair(color))
     window.addstr(col_3[0], col_3[1], str( proc[idx]['parent']['name']), curses.color_pair(color))
     window.addstr(col_4[0], col_4[1], str( proc[idx]['parent']['pid']) + '\n', curses.color_pair(color))
 
