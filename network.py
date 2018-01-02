@@ -7,33 +7,25 @@ def getConnections():
 
     c = psutil.net_connections()
     connects = {}
-    # established =  {}
-    # listen = {}
-    # e = 0
-    # l = 0
+
     count = 0
     for connection in c:
         conn = {}
         status = connection.status
-        if status == 'ESTABLISHED':
+        if status == 'ESTABLISHED' or connection.status == 'CLOSE_WAIT':
             conn['status'] = status
             conn['local'] = connection.laddr[0] + ':' + str(connection.laddr[1])
             conn['remote'] = connection.raddr[0] + ':' + str(connection.raddr[1])
-            # established[e] = conn
             connects[count] = conn
-            # e += 1
             count += 1
-        elif connection.status == 'LISTEN':
+        elif status == 'LISTEN':
             conn['status'] = status
             conn['local'] = connection.laddr[0] + ':' + str(connection.laddr[1])
             connects[count] = conn
             count += 1
         else:
-            # print(connection.status)
             pass
 
-    # connects['established'] = established
-    # connects['listening'] = listen
     return connects
 
 def packetSniff():
@@ -44,7 +36,6 @@ def packetSniff():
     x = 0
     for p in packets.items():
         values = {}
-        # name = p[0]
         values['name'] = p[0]
         values['bytes_sent'] = p[1][0]
         values['bytes_recv'] = p[1][1]
@@ -54,7 +45,10 @@ def packetSniff():
         values['errout'] = p[1][5]
         values['dropin'] = p[1][6]
         values['dropout'] = p[1][7]
-        if ((values['bytes_sent'] or values['bytes_recv'] or values['pckt_sent'] or values['pckt_recv']) != 0):
+
+        if ((values['bytes_sent'] or values['bytes_recv'] or
+            values['pckt_sent'] or values['pckt_recv']) != 0):
+
             interfaces[x] = values
             x += 1
         else:

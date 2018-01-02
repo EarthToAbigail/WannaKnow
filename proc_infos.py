@@ -4,11 +4,7 @@ def getProcesses():
     """ Returns running processes grouped by apple and other identified """
     pids = psutil.pids()
     processes = {}
-    apple = {}
-    other = {}
 
-    a = 0
-    o = 0
     count = 0
     for p in pids:
         proc = psutil.Process(p)
@@ -23,16 +19,7 @@ def getProcesses():
         process['parent'] = parent
 
         if proc.status() == 'running':
-            # if 'apple' in process['name']:
-            #     apple[a] = process
-            #     a += 1
-            # else:
-            #     other[o] = process
-            #     o += 1
             processes[count] = process
             count += 1
-
-    # processes['apple'] = apple
-    # processes['other'] = other
 
     return processes
