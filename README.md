@@ -37,11 +37,11 @@ system monitoring, profiling and limiting process resources and management of ru
 implements many functionalities offered by UNIX command line tools such as: ps, top, lsof, netstat,
 ifconfig, who, df, kill, free, nice, ionice, iostat, iotop, uptime, pidof, tty, taskset, pmap.
 
-This amazing library created by ''''' allows for the use of network utilities through python. Only issue,
+This amazing library, created by [Giampaolo Rodola](http://grodola.blogspot.com/p/about.html) (@giampaolo), allows for the use of network utilities through python. Only issue,
 some of these utilities need root permissions to run so in the case of WannaKnow, the app must be run with
 superuser permissions (at least on recent versions of MacOs) in order to access the information.
 
-To know more about the psutil library, you can refer to the documentation.
+To know more about the psutil library, you can refer to the [documentation](http://psutil.readthedocs.io/en/latest/#about).
 
 ### (n)curses
 
@@ -49,16 +49,25 @@ Curses (or ncurses after some publishing issues) is a python library that allows
 On initialization, curses returns a window object the size of the current terminal in which it's possible to
 draw and display information on.
 
-For more information on curses, refer to the documentation.
+For more information on curses, refer to the [documentation](https://docs.python.org/3.3/howto/curses.html).
 
-## Usage
+## Requirements and Usage
+
+WannaKnow uses Python3 (my version is 3.6).
+To use the app:
+
+```
+pip install psutil  
+git clone https://github.com/EarthToAbigail/WannaKnow.git
+sudo python3 wannaknow.py
+```
 
 WannaKnow uses colour codes to try and make the information clearer to look at with a glance. On the left
 side, information on the various sessions as well as packets coming in and out from the network is displayed
 at the top, alongside a simple legend with basic usage and color explanation.
 
-Below is the connections window, users can flip through rows of connections by using the keys 'a', 's', 'd'.
-The 'x' character returns to display the first results.
+Below is the connections window, users can flip through rows of connections by using the keys `'a', 's', 'd'`.
+The `'x'` character returns to display the first results.
 
 On the right, all the processes are listed long with their pid number as well as the parent process name
 and pid number. The parent processes are listed in white. The main processes are colour coded: red when a
@@ -68,8 +77,8 @@ apple.com part of the name has been omitted for the sake of space) which I chose
 so that I could keep track of them more clearly. In those cases, the name will appear in pink but the PID
 will still be in the colour of the user in which the process is ran.
 
-To keys 'j', 'k', 'l', 'i' and 'm' can be used to flip through different parts of the process listing. The
-key 'b' will bring back to the top of the list.
+To keys `'j', 'k', 'l', 'i'` and `'m'` can be used to flip through different parts of the process listing. The
+key `'b'` will bring back to the top of the list.
 
 ## Issues
 
