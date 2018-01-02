@@ -5,8 +5,15 @@ def getConnections():
     """ Returns an array of arrays representing the local and foreign ips and ports
         of established and listening connections as well as their pid. """
 
-    c = psutil.net_connections()
     connects = {}
+
+    try:
+        c = psutil.net_connections()
+    except Exception as e:
+        # conn = {}
+        # conn['status'] = 'Permission denied'
+        connects[0] = 'Permission denied'
+        return connects
 
     count = 0
     for connection in c:

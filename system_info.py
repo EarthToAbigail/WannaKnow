@@ -6,8 +6,13 @@ def getUserDetails():
     """ Return details on not only the user but also different sessions
         of the same user """
 
-    u = psutil.users()
     users = {}
+    try:
+        u = psutil.users()
+    except Exception as e:
+        users[0] = 'Are you root?'
+        return users
+
     x = 0
     for user in u:
         usr = {}

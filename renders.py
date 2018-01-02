@@ -13,7 +13,10 @@ def proc_row(window, proc, col_2, col_3, col_4, idx, color):
     window.addstr(col_4[0], col_4[1], str( proc[idx]['parent']['pid']) + '\n', curses.color_pair(1))
 
 def conn_row(window, connection, col_2, col_3, col_4, idx, color1, color2, color3, color4, color5):
-    if connection[idx]['status'] == 'ESTABLISHED':
+    if connection[idx] == 'Permission denied':
+        window.addstr('Permission denied\n', curses.color_pair(2))
+
+    elif connection[idx]['status'] == 'ESTABLISHED':
         window.addstr('ESTBL ', curses.color_pair(color1) | curses.A_BOLD)
         window.addstr(col_2[0], col_2[1], connection[idx]['local'], curses.color_pair(color2) | curses.A_BOLD)
         window.addstr(col_3[0], col_3[1], '   ->   ', curses.color_pair(color3))
@@ -29,7 +32,15 @@ def conn_row(window, connection, col_2, col_3, col_4, idx, color1, color2, color
         window.addstr(col_3[0], col_3[1], '   ->   ', curses.color_pair(color3))
         window.addstr(col_4[0], col_4[1], connection[idx]['remote'] + '\n', curses.color_pair(color5))
 
+    # else:
+    #     window.addstr('Permission denied', curses.color_pair(2))
+
 def usr_row(window, usr, col_2, col_3, col_4, col_5, color1, color2):
+    try:
+        usr['name']
+    except KeyError:
+        window.addstr('You need root permissions\n', curses.color_pair(color1) | curses.A_BOLD)
+
     window.addstr(str(usr['name']), curses.color_pair(color1) | curses.A_BOLD)
     window.addstr(col_2[0], col_2[1], str(usr['terminal']), curses.color_pair(color2))
     window.addstr(col_3[0], col_3[1], str(usr['host']), curses.color_pair(color2))
