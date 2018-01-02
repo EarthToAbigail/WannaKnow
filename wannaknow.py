@@ -3,6 +3,9 @@ import time
 from math import ceil, floor
 from curses import wrapper
 from stats import getStats
+from proc_infos import getProcesses
+from system_info import getUserDetails
+from network import packetSniff, getConnections
 from renders import proc_row, conn_row, usr_row, pck_row
 from renders import usr_head, proc_head, pck_head, net_head, usage
 
@@ -27,20 +30,22 @@ def main(stdscr):
     curses.init_pair(9, black, curses.COLOR_BLUE)
 
     while True:
-        stats = getStats()
+        # stats = getStats()
+        users = getUserDetails()
+        interfaces = packetSniff()
+        connections = getConnections()
+        procs = getProcesses()
+
         stdscr.clear() # Dont Change!
 
         # Define section specific variables
-        interfaces = stats['network']['interfaces']
-        connections = stats['network']['connections']
         num_connects = len(connections.items())
         num_closed = 0
         for i in range(0, num_connects):
             if connections[i]['status'] == 'CLOSE_WAIT':
                 num_closed += 1
 
-        procs = stats['processes']
-        num_procs = len(stats['processes'].items())
+        num_procs = len(procs.items())
 
         # Manipulate row numbers according to user input
         try:
@@ -106,7 +111,16 @@ def main(stdscr):
             row_proc = 0
 
         # Define max width and height
-        term_size = stdscr.getmaxyx()
+        try:
+            term_size
+        except NameError:
+            term_size = stdscr.getmaxyx()
+
+        resized = curses.is_term_resized(term_size[0], term_size[1])
+
+        # Recalculate if terminal has been resized
+        if resized == True:
+            term_size = stdscr.getmaxyx()
 
         # Create sub-windows
         win_width = term_size[1] / 3
@@ -125,8 +139,8 @@ def main(stdscr):
 
         usr_head(term_1, col_2, col_3, col_4, col_5, 4)
 
-        for c in range(0, len(stats['users'].items())):
-            user = stats['users'][c]
+        for c in range(0, len(users.items())):
+            user = users[c]
 
             curr = term_1.getyx()
 
@@ -163,6 +177,11 @@ def main(stdscr):
         else:
             row_c = 0
 
+        h1 = term_size[0] - 1
+        remains = num_connects - row_conn
+        if h1 > remains:
+            h1 = remains
+
         for c in range(curr[0], term_size[0] - 1):
             cur = term_1.getyx()
             col_2 = (cur[0], cur[1] + (floor(win_width/5)) - 4)
@@ -194,12 +213,12 @@ def main(stdscr):
         else:
             row_p = 0
 
-        h1 = term_size[0] - 1
+        h2 = term_size[0] - 1
         remains = num_procs - row_p
-        if h1 > remains:
-            h1 = remains
+        if h2 > remains:
+            h2 = remains
 
-        for c in range(curr[0], h1):
+        for c in range(curr[0], h2):
             curr = term_2.getyx()
             col_2 = (curr[0], curr[1] + (floor(win_width/5)) - 6)
             col_3 = (curr[0], curr[1] + (floor((win_width/5)*3)))
@@ -208,7 +227,7 @@ def main(stdscr):
             if procs[row_p]['user'] == 'root':
                 proc_row(term_2, procs, col_2, col_3, col_4, row_p, 2)
 
-            elif procs[row_p]['user'] == stats['users'][0]['name']:
+            elif procs[row_p]['user'] == users[0]['name']:
                 proc_row(term_2, procs, col_2, col_3, col_4, row_p, 6)
 
             else:
@@ -226,12 +245,12 @@ def main(stdscr):
 
         curr = term_3.getyx()
 
-        h2 = term_size[0] - 1
+        h3 = term_size[0] - 1
         remains = num_procs - row_p
-        if h2 > remains:
-            h2 = remains
+        if h3 > remains:
+            h3 = remains
 
-        for a in range(curr[0], h2):
+        for a in range(curr[0], h3):
             curr = term_3.getyx()
             col_2 = (curr[0], curr[1] + (floor(win_width/5)) - 6)
             col_3 = (curr[0], curr[1] + (floor((win_width/5)*3)))
@@ -240,7 +259,7 @@ def main(stdscr):
             if procs[row_p]['user'] == 'root':
                 proc_row(term_3, procs, col_2, col_3, col_4, row_p, 2)
 
-            elif procs[row_p]['user'] == stats['users'][0]['name']:
+            elif procs[row_p]['user'] == users[0]['name']:
                 proc_row(term_3, procs, col_2, col_3, col_4, row_p, 6)
             else:
                 proc_row(term_3, procs, col_2, col_3, col_4, row_p, 5)
@@ -248,8 +267,6 @@ def main(stdscr):
 
         term_3.refresh()
 
-        #DO NOT CHANGE BELOW THIS LINE
-        # stdscr.refresh()
         time.sleep(0.3)
 
 wrapper(main)
