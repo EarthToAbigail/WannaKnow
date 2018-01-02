@@ -1,6 +1,6 @@
-# WannaKnow
+# WannaKnow :busts_in_silhouette: :computer:
 
-## What Is It?
+## What Is It? :traffic_light:
 
 **WannaKnow** is a small dynamic network and process monitoring app written in Python.
 It is mainly a wrapper built on top of the psutil library for data gathering and the (n)curses
@@ -10,7 +10,7 @@ and easily readable way. This is something I created for myself so the informati
 in a way that suits my personal needs. I'm running on **MacOsSierra** so some of the information
 is MacOs specific.
 
-## What Did I Wanna Know?
+## What Did I Wanna Know? :squirrel:
 
 Basically I was tired of trying to debug my network by running static commands in the cli like
 `netstat` and so forth and dealing with the verbose output. These utilities are
@@ -25,7 +25,7 @@ behaviour and block processes from executing (which in many cases and blocking s
 connections or process from executing is a good thing, only in this case that was not the purpose I was
 looking for).
 
-## How?
+## How? :construction: 
 
 WannaKnow is a wrapper around two really nice Python libraries:
 
@@ -53,7 +53,7 @@ in which it's possible to draw and display information on.
 
 For more information on curses, refer to the [documentation](https://docs.python.org/3.3/howto/curses.html).
 
-## Requirements and Usage
+## Requirements and Usage :floppy_disk:
 
 WannaKnow uses Python3 (my version is 3.6.1).
 To use the app:
@@ -81,7 +81,7 @@ will still be in the colour of the user in which the process is ran.
 To keys `'j', 'k', 'l', 'i'` and `'m'` can be used to flip through different parts of the process listing. The
 key `'b'` will bring back to the top of the list.
 
-## Issues
+## Issues :warning:
 
 This is not a final prototype  and I'm far from being an experienced python programmer but on my machine it
 runs well and basically does what I want it to do. For the app to work best, the terminal needs to be at
@@ -90,7 +90,7 @@ functions used by the program require root permissions, WannaKnow needs to be ru
 fix this so that the app can still run with less permissions and displays only the information that it can.
 Their are also some crashing issues when the app runs for a while which I'm trying to solve.
 
-## Next Steps
+## Next Steps :hourglass_flowing_sand: 
 
 Their are a few functionalities I would like to try and implement:
 * First I would like to try and make the information relevant if the user is on Linux or Mac (adapt the specific MacOs process display).
@@ -98,4 +98,4 @@ Their are a few functionalities I would like to try and implement:
 information windows that could be accessed on user input (basically adding more windows that the user could
 flip through).
 
-Twitter: @EarthAbigail
+:mailbox_closed: Twitter: [@EarthAbigail](https://twitter.com/EarthAbigail)
