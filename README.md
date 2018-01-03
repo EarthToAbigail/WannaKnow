@@ -100,7 +100,7 @@ Their are a few functionalities I would like to try and implement:
 * Harness further the power of the `psutil` library by using it to display more information windows that could be accessed on user input (basically adding more windows that the user could flip through).
 * Implement an efficient logging system (for debugging purposes)
 
-##Change Log
+## Change Log
 
 2018-01-03: Version 1.1
 * Fixed problems related to unexpected crashes
