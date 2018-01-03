@@ -178,11 +178,11 @@ def main(stdscr):
             row_c = 0
 
         h1 = term_size[0] - 1
-        remains = num_connects - row_conn
-        if h1 > remains:
-            h1 = remains
+        # remains = num_connects - row_c
+        # if h1 > remains:
+        #     h1 = remains
 
-        for c in range(curr[0], term_size[0] - 1):
+        for c in range(curr[0], h1):
             cur = term_1.getyx()
             col_2 = (cur[0], cur[1] + (floor(win_width/5)) - 4)
             col_3 = (cur[0], cur[1] + (floor((win_width/5)*2)) + 3)
@@ -190,7 +190,7 @@ def main(stdscr):
 
             conn_row(term_1, connections, col_2, col_3, col_4, row_c, 3, 1, 4, 5, 9)
             row_c += 1
-            if row_c == num_connects - 1:
+            if row_c == num_connects:
                 break
 
         # Print instructions
