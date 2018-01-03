@@ -67,7 +67,7 @@ def usr_head(window, col_2, col_3, col_4, col_5, color):
         window.addstr(col_4[0], col_4[1], ":  Start Time   :", curses.color_pair(color) | curses.A_BOLD)
         window.addstr(col_5[0], col_5[1], ":  PID\n", curses.color_pair(color) | curses.A_BOLD)
     except Exception as e:
-        return sys.exit('Terminal window too small to display user headers.\n')
+        return sys.exit('Terminal window too small.\n')
 
 def proc_head(window, col_2, col_3, color1, color2):
     try:
@@ -75,7 +75,7 @@ def proc_head(window, col_2, col_3, color1, color2):
         window.addstr(col_2[0], col_2[1], 'Name', curses.color_pair(color2))
         window.addstr(col_3[0], col_3[1], 'Parent\n', curses.color_pair(color2))
     except Exception as e:
-        return sys.exit('Terminal window too small process headers.\n')
+        return sys.exit('Terminal window too small.\n')
 
 def pck_head(window, col_2, color1, color2, num):
     try:
@@ -83,7 +83,7 @@ def pck_head(window, col_2, color1, color2, num):
         window.addstr(col_2[0] + 1, col_2[1], 'PckSt / PckRecv\n',
                         curses.color_pair(color2) | curses.A_BOLD)
     except Exception as e:
-        return sys.exit('Terminal window too small packets headers.\n')
+        return sys.exit('Terminal window too small.\n')
 
 def net_head(window, num1, num2):
     try:
