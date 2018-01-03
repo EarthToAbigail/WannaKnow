@@ -255,7 +255,6 @@ def main(stdscr):
             curr = term_3.getyx()
 
             h3 = term_size[0] - 1
-            remains = num_procs - row_p
 
             for a in range(curr[0], h3):
                 if row_p == num_procs:
