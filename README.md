@@ -99,6 +99,7 @@ Their are a few functionalities I would like to try and implement:
 * Make the information relevant if the user is on Linux or Mac (adapt the specific MacOs process display).
 * Harness further the power of the `psutil` library by using it to display more information windows that could be accessed on user input (basically adding more windows that the user could flip through).
 * Implement an efficient logging system (for debugging purposes)
+* Adjust the rendering so that it's possible to view the app in split panel on the screen.
 
 ## Change Log
 
