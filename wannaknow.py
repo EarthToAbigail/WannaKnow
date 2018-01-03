@@ -30,11 +30,19 @@ def main(stdscr):
     curses.init_pair(9, black, curses.COLOR_BLUE)
 
     while True:
-        # stats = getStats()
-        users = getUserDetails()
-        interfaces = packetSniff()
-        connections = getConnections()
-        procs = getProcesses()
+        stats = getStats()
+
+        # users = getUserDetails()
+        # interfaces = packetSniff()
+        # connections = getConnections()
+        # procs = getProcesses()
+        try:
+            users = stats['users']
+            interfaces = stats['network']['interfaces']
+            connections = stats['network']['connections']
+            procs = stats['processes']
+        except TypeError:
+            pass
 
         stdscr.clear() # Dont Change!
 
@@ -70,8 +78,8 @@ def main(stdscr):
             curses.flushinp()
 
         elif k == ord('d'):
-            if num_connects >= connect_height * 3:
-                row_c = connect_height * 3
+            if num_connects > connect_height * 3:
+                row_conn = connect_height * 3
             curses.flushinp()
 
         elif k == ord('x'):
@@ -183,6 +191,8 @@ def main(stdscr):
         #     h1 = remains
 
         for c in range(curr[0], h1):
+            if row_c == num_connects:
+                break
             cur = term_1.getyx()
             col_2 = (cur[0], cur[1] + (floor(win_width/5)) - 4)
             col_3 = (cur[0], cur[1] + (floor((win_width/5)*2)) + 3)
@@ -190,8 +200,8 @@ def main(stdscr):
 
             conn_row(term_1, connections, col_2, col_3, col_4, row_c, 3, 1, 4, 5, 9)
             row_c += 1
-            if row_c == num_connects:
-                break
+            # if row_c == num_connects:
+            #     break
 
         # Print instructions
         usage(term_1, col_instruct)
@@ -214,11 +224,13 @@ def main(stdscr):
             row_p = 0
 
         h2 = term_size[0] - 1
-        remains = num_procs - row_p
-        if h2 > remains:
-            h2 = remains
+        # remains = num_procs - row_p
+        # if h2 > remains:
+        #     h2 = remains
 
         for c in range(curr[0], h2):
+            if row_p == num_procs:
+                break
             curr = term_2.getyx()
             col_2 = (curr[0], curr[1] + (floor(win_width/5)) - 6)
             col_3 = (curr[0], curr[1] + (floor((win_width/5)*3)))
@@ -247,10 +259,12 @@ def main(stdscr):
 
         h3 = term_size[0] - 1
         remains = num_procs - row_p
-        if h3 > remains:
-            h3 = remains
+        # if h3 > remains:
+        #     h3 = remains
 
         for a in range(curr[0], h3):
+            if row_p == num_procs:
+                break
             curr = term_3.getyx()
             col_2 = (curr[0], curr[1] + (floor(win_width/5)) - 6)
             col_3 = (curr[0], curr[1] + (floor((win_width/5)*3)))
@@ -267,6 +281,6 @@ def main(stdscr):
 
         term_3.refresh()
 
-        time.sleep(0.3)
+        time.sleep(0.2)
 
 wrapper(main)
