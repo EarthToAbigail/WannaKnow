@@ -281,4 +281,7 @@ def main(stdscr):
         except KeyboardInterrupt:
             return sys.exit('Thank you! Goodbye!')
 
-wrapper(main)
+try:
+    wrapper(main)
+except Exception:
+    sys.exit('"If you don\'t have root privileges, I can\'t help you!"\n')
