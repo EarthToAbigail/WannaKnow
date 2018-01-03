@@ -91,7 +91,7 @@ runs well and basically does what I want it to do. For the app to work best, the
 least 2/3 of the screen wide (in case of small screens). As mentioned before, because some of the psutil
 functions used by the program require root permissions, WannaKnow needs to be run with sudo. I'm trying to
 fix this so that the app can still run with less permissions and displays only the information that it can.
-Their are also some crashing issues when the app runs for a while which I'm trying to solve. Some of these crashes could probably be avoided with better error management.
+Their are also some crashing issues when the app runs for a while which I'm trying to solve. Some of these crashes could probably be avoided with better error management (update: this is an issue I believe I fixed in current version).
 
 ## Next Steps :hourglass_flowing_sand:
 
