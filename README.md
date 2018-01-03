@@ -88,14 +88,15 @@ runs well and basically does what I want it to do. For the app to work best, the
 least 2/3 of the screen wide (in case of small screens). As mentioned before, because some of the psutil
 functions used by the program require root permissions, WannaKnow needs to be run with sudo. I'm trying to
 fix this so that the app can still run with less permissions and displays only the information that it can.
-Their are also some crashing issues when the app runs for a while which I'm trying to solve.
+Their are also some crashing issues when the app runs for a while which I'm trying to solve. Some of these crashes
+could probably be avoided with better error management.
 
 ## Next Steps :hourglass_flowing_sand: 
 
 Their are a few functionalities I would like to try and implement:
-* First I would like to try and make the information relevant if the user is on Linux or Mac (adapt the specific MacOs process display).
-* Secondly, I would like to harness further the power of the `psutil` library by using it to display more
-information windows that could be accessed on user input (basically adding more windows that the user could
-flip through).
+* Make the information relevant if the user is on Linux or Mac (adapt the specific MacOs process display).
+* Harness further the power of the `psutil` library by using it to display more information windows that could be accessed on user input (basically adding more windows that the user could flip through).
+* Implement an efficient logging system (for debugging purposes)
+
 
 :mailbox_closed: Twitter: [@EarthAbigail](https://twitter.com/EarthAbigail)
