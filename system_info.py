@@ -14,7 +14,6 @@ def getUserDetails():
         usr['name'] = user.name
         usr['terminal'] = user.terminal
         usr['host'] = user.host
-        # usr['start'] = user.started
         usr['start'] = datetime.datetime.fromtimestamp(user.started).strftime('%Y-%m-%d %H:%M')[2:]
         usr['pid'] = user.pid
         users[x] = usr

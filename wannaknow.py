@@ -203,7 +203,7 @@ def main(stdscr):
                 conn_row(term_1, connections, col_2, col_3, col_4, row_c, 3, 1, 4, 5, 9)
                 row_c += 1
 
-            # Print instructions
+            # Print usage instructions
             usage(term_1, col_instruct)
 
             term_1.refresh()
