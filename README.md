@@ -10,7 +10,8 @@ and easily readable way. This is something I created for myself so the informati
 in a way that suits my personal needs. I'm running on **MacOsSierra** so some of the information
 is MacOs specific.
 
-![WannaKnow Screenshot](./WannaKnow_screeshot.png?raw=true "Screenshot")
+![WannaKnow Screenshot](https://raw.github.com/EarthToAbigail/WannaKnow/master/WannaKnow_screenshot.png)
+
 
 ## What Did I Wanna Know? :squirrel:
 
