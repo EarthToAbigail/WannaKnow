@@ -20,7 +20,8 @@ def getStats():
         return stats
 
     except Exception as e:
-        pass
+        return sys.exit('"If you don\'t have sudo privileges, I can\'t help you!"\n' + \
+                        'Usage:\nsudo python3 wannaknow.py\n')
 
 # This other main function can be commented out for debugging purposes when there seems
 # to be an issue with gathering the data

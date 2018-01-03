@@ -108,7 +108,7 @@ def usage(window, col):
         window.addstr(col[0] + 2, col[1], ' b', curses.color_pair(1) | curses.A_BOLD)
         window.addstr(' = ')
         window.addstr('back ', curses.color_pair(4) | curses.A_BOLD)
-        window.addstr(col[0] + 3, col[1], ' a,s,d', curses.color_pair(1) | curses.A_BOLD)
+        window.addstr(col[0] + 3, col[1], ' a,s,d,w,z', curses.color_pair(1) | curses.A_BOLD)
         window.addstr(' = ')
         window.addstr('connects ', curses.color_pair(4) | curses.A_BOLD)
         window.addstr(col[0] + 4, col[1], ' x', curses.color_pair(1) | curses.A_BOLD)
