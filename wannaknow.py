@@ -1,11 +1,8 @@
 import curses
-import time
-from math import ceil, floor
+import time, sys
+from math import floor
 from curses import wrapper
 from stats import getStats
-from proc_infos import getProcesses
-from system_info import getUserDetails
-from network import packetSniff, getConnections
 from renders import proc_row, conn_row, usr_row, pck_row
 from renders import usr_head, proc_head, pck_head, net_head, usage
 
@@ -30,243 +27,248 @@ def main(stdscr):
     curses.init_pair(9, black, curses.COLOR_BLUE)
 
     while True:
-        # stats = getStats()
-        users = getUserDetails()
-        interfaces = packetSniff()
-        connections = getConnections()
-        procs = getProcesses()
-
-        stdscr.clear() # Dont Change!
-
-        # Define section specific variables
-        num_connects = len(connections.items())
-        num_closed = 0
-        for i in range(0, num_connects):
-            if connections[i]['status'] == 'CLOSE_WAIT':
-                num_closed += 1
-
-        num_procs = len(procs.items())
-
-        # Manipulate row numbers according to user input
         try:
-            row_conn
-        except NameError:
-            row_conn = 0
+            stats = getStats()
 
-        try:
-            row_proc
-        except NameError:
-            row_proc = 0
+            try:
+                users = stats['users']
+                interfaces = stats['network']['interfaces']
+                connections = stats['network']['connections']
+                procs = stats['processes']
+            except TypeError:
+                pass
 
-        k = stdscr.getch()
-        if k == ord('a'):
-            if num_connects > connect_height:
-                row_conn = connect_height
-            curses.flushinp()
+            stdscr.clear() # Dont Change!
 
-        elif k == ord('s'):
-            if num_connects > connect_height * 2:
-                row_conn = connect_height * 2
-            curses.flushinp()
+            # Define section specific variables
+            num_connects = len(connections.items())
+            num_closed = 0
+            for i in range(0, num_connects):
+                if connections[i]['status'] == 'CLOSE_WAIT':
+                    num_closed += 1
 
-        elif k == ord('d'):
-            if num_connects >= connect_height * 3:
-                row_c = connect_height * 3
-            curses.flushinp()
+            num_procs = len(procs.items())
 
-        elif k == ord('x'):
-            row_conn = 0
-            curses.flushinp()
+            # Manipulate row numbers according to user input
+            try:
+                row_conn
+            except NameError:
+                row_conn = 0
 
-        elif k == ord('j'):
-            if num_procs >= term_size[0] * 2 - 2:
-                row_proc = term_size[0] * 2
-            curses.flushinp()
+            try:
+                row_proc
+            except NameError:
+                row_proc = 0
 
-        elif k == ord('k'):
-            if num_procs >= term_size[0] * 4 - 2:
-                row_proc = term_size[0] * 4
-            curses.flushinp()
+            k = stdscr.getch()
 
-        elif k == ord('l'):
-            if num_procs >= term_size[0] * 6 - 2:
-                row_proc = term_size[0] * 6
-            curses.flushinp()
+            if k == ord('a'):
+                if num_connects > connect_height:
+                    row_conn = connect_height
+                curses.flushinp()
 
-        elif k == ord('i'):
-            if num_procs >= term_size[0] * 8 - 2:
-                row_proc = term_size[0] * 8
-            curses.flushinp()
+            elif k == ord('s'):
+                if num_connects > connect_height * 2:
+                    row_conn = connect_height * 2
+                curses.flushinp()
 
-        elif k == ord('m'):
-            if num_procs >= term_size[0] * 10 - 2:
-                row_proc = term_size[0] * 10
-            curses.flushinp()
+            elif k == ord('d'):
+                if num_connects > connect_height * 3:
+                    row_conn = connect_height * 3
+                curses.flushinp()
 
-        elif k == ord('b'):
-            row_proc = 0
-            curses.flushinp()
+            elif k == ord('x'):
+                row_conn = 0
+                curses.flushinp()
 
-        if row_proc >= num_procs - 1:
-            row_proc = 0
+            elif k == ord('j'):
+                if num_procs >= term_size[0] * 2 - 2:
+                    row_proc = term_size[0] * 2
+                curses.flushinp()
 
-        # Define max width and height
-        try:
-            term_size
-        except NameError:
-            term_size = stdscr.getmaxyx()
+            elif k == ord('k'):
+                if num_procs >= term_size[0] * 4 - 2:
+                    row_proc = term_size[0] * 4
+                curses.flushinp()
 
-        resized = curses.is_term_resized(term_size[0], term_size[1])
+            elif k == ord('l'):
+                if num_procs >= term_size[0] * 6 - 2:
+                    row_proc = term_size[0] * 6
+                curses.flushinp()
 
-        # Recalculate if terminal has been resized
-        if resized == True:
-            term_size = stdscr.getmaxyx()
+            elif k == ord('i'):
+                if num_procs >= term_size[0] * 8 - 2:
+                    row_proc = term_size[0] * 8
+                curses.flushinp()
 
-        # Create sub-windows
-        win_width = term_size[1] / 3
+            elif k == ord('m'):
+                if num_procs >= term_size[0] * 10 - 2:
+                    row_proc = term_size[0] * 10
+                curses.flushinp()
 
-        term_1 = stdscr.subwin(term_size[0], floor(win_width) - 2, 0, 0)
-        term_2 = stdscr.subwin(term_size[0], floor(win_width), 0, floor(win_width) - 3)
-        term_3 = stdscr.subwin(term_size[0], floor(win_width), 0, floor(win_width * 2) - 3)
+            elif k == ord('b'):
+                row_proc = 0
+                curses.flushinp()
 
-        # Left column of terminal screen (term_1)
-        curr = term_1.getyx()
+            if row_proc >= num_procs - 1:
+                row_proc = 0
 
-        col_2 = (curr[0], curr[1] + (floor(win_width/5)) - 5)
-        col_3 = (curr[0], curr[1] + (floor((win_width/5)*2)) - 4)
-        col_4 = (curr[0], curr[1] + (floor((win_width/5)*3)) - 7)
-        col_5 = (curr[0], curr[1] + (floor((win_width/5)*4)) - 3)
+            # Define max width and height
+            try:
+                term_size
+            except NameError:
+                term_size = stdscr.getmaxyx()
 
-        usr_head(term_1, col_2, col_3, col_4, col_5, 4)
+            resized = curses.is_term_resized(term_size[0], term_size[1])
 
-        for c in range(0, len(users.items())):
-            user = users[c]
+            # Recalculate if terminal has been resized
+            if resized == True:
+                term_size = stdscr.getmaxyx()
 
+            # Create sub-windows
+            win_width = term_size[1] / 3
+
+            term_1 = stdscr.subwin(term_size[0], floor(win_width) - 2, 0, 0)
+            term_2 = stdscr.subwin(term_size[0], floor(win_width), 0, floor(win_width) - 3)
+            term_3 = stdscr.subwin(term_size[0], floor(win_width), 0, floor(win_width * 2) - 3)
+
+            # Left column of terminal screen (term_1)
             curr = term_1.getyx()
 
-            col_2 = (curr[0], curr[1] + (floor(win_width/5)) - 2)
-            col_3 = (curr[0], curr[1] + (floor((win_width/5)*2)) - 1)
-            col_4 = (curr[0], curr[1] + (floor((win_width/5)*3)) - 5)
-            col_5 = (curr[0], curr[1] + floor((win_width/5)*4))
+            col_2 = (curr[0], curr[1] + (floor(win_width/5)) - 5)
+            col_3 = (curr[0], curr[1] + (floor((win_width/5)*2)) - 4)
+            col_4 = (curr[0], curr[1] + (floor((win_width/5)*3)) - 7)
+            col_5 = (curr[0], curr[1] + (floor((win_width/5)*4)) - 3)
 
-            usr_row(term_1, user, col_2, col_3, col_4, col_5, 3, 1)
+            usr_head(term_1, col_2, col_3, col_4, col_5, 4)
 
-        # Network Info Display (Packets)
-        curr = term_1.getyx()
-        col_2 = (curr[0], curr[1] + floor(win_width/5))
+            for c in range(0, len(users.items())):
+                user = users[c]
 
-        # Save the current location as coordinates to print the usage later on.
-        col_instruct = (col_2[0] + 1, col_2[1] + floor((win_width/5))*2 - 3)
+                curr = term_1.getyx()
 
-        pck_head(term_1, col_2, 8, 4, win_width)
+                col_2 = (curr[0], curr[1] + (floor(win_width/5)) - 2)
+                col_3 = (curr[0], curr[1] + (floor((win_width/5)*2)) - 1)
+                col_4 = (curr[0], curr[1] + (floor((win_width/5)*3)) - 5)
+                col_5 = (curr[0], curr[1] + floor((win_width/5)*4))
 
-        for i in range(0, len(interfaces.items())):
+                usr_row(term_1, user, col_2, col_3, col_4, col_5, 3, 1)
+
+            # Network Info Display (Packets)
             curr = term_1.getyx()
-
             col_2 = (curr[0], curr[1] + floor(win_width/5))
-            pck_row(term_1, interfaces, col_2, i, 3, 2)
 
-        net_head(term_1, num_connects, num_closed)
+            # Save the current location as coordinates to print the usage later on.
+            col_instruct = (col_2[0] + 1, col_2[1] + floor((win_width/5))*2 - 3)
 
-        curr = term_1.getyx()
-        connect_height = term_size[0] - curr[0] - 1
-        col_2 = (curr[0], curr[1] + (floor(win_width/5)) - 5)
+            pck_head(term_1, col_2, 8, 4, win_width)
 
-        if row_conn > 0:
-            row_c = row_conn
-        else:
-            row_c = 0
+            for i in range(0, len(interfaces.items())):
+                curr = term_1.getyx()
 
-        h1 = term_size[0] - 1
-        # remains = num_connects - row_c
-        # if h1 > remains:
-        #     h1 = remains
+                col_2 = (curr[0], curr[1] + floor(win_width/5))
+                pck_row(term_1, interfaces, col_2, i, 3, 2)
 
-        for c in range(curr[0], h1):
-            cur = term_1.getyx()
-            col_2 = (cur[0], cur[1] + (floor(win_width/5)) - 4)
-            col_3 = (cur[0], cur[1] + (floor((win_width/5)*2)) + 3)
-            col_4 = (cur[0], cur[1] + (floor((win_width/5)*3)) - 1)
+            net_head(term_1, num_connects, num_closed)
 
-            conn_row(term_1, connections, col_2, col_3, col_4, row_c, 3, 1, 4, 5, 9)
-            row_c += 1
-            if row_c == num_connects:
-                break
+            curr = term_1.getyx()
+            connect_height = term_size[0] - curr[0] - 1
+            col_2 = (curr[0], curr[1] + (floor(win_width/5)) - 5)
 
-        # Print instructions
-        usage(term_1, col_instruct)
+            if row_conn > 0:
+                row_c = row_conn
+            else:
+                row_c = 0
 
-        term_1.refresh()
+            h1 = term_size[0] - 1
 
-        # Middle column of terminal screen (term_2)
-        #Processes
-        curr = term_2.getyx()
-        col_2 = (curr[0], curr[1] + (floor(win_width/5)) - 5)
-        col_3 = (curr[0], curr[1] + (floor((win_width/5)*3)))
+            for c in range(curr[0], h1):
+                if row_c == num_connects:
+                    break
+                cur = term_1.getyx()
+                col_2 = (cur[0], cur[1] + (floor(win_width/5)) - 4)
+                col_3 = (cur[0], cur[1] + (floor((win_width/5)*2)) + 3)
+                col_4 = (cur[0], cur[1] + (floor((win_width/5)*3)) - 1)
 
-        proc_head(term_2, col_2, col_3, 7, 8)
+                conn_row(term_1, connections, col_2, col_3, col_4, row_c, 3, 1, 4, 5, 9)
+                row_c += 1
 
-        curr = term_2.getyx()
+            # Print instructions
+            usage(term_1, col_instruct)
 
-        if row_proc > 0:
-            row_p = row_proc
-        else:
-            row_p = 0
+            term_1.refresh()
 
-        h2 = term_size[0] - 1
-        remains = num_procs - row_p
-        if h2 > remains:
-            h2 = remains
-
-        for c in range(curr[0], h2):
+            # Middle column of terminal screen (term_2)
+            #Processes
             curr = term_2.getyx()
-            col_2 = (curr[0], curr[1] + (floor(win_width/5)) - 6)
+            col_2 = (curr[0], curr[1] + (floor(win_width/5)) - 5)
             col_3 = (curr[0], curr[1] + (floor((win_width/5)*3)))
-            col_4 = (curr[0], curr[1] + (floor((win_width/5)*4)) + 3)
 
-            if procs[row_p]['user'] == 'root':
-                proc_row(term_2, procs, col_2, col_3, col_4, row_p, 2)
+            proc_head(term_2, col_2, col_3, 7, 8)
 
-            elif procs[row_p]['user'] == users[0]['name']:
-                proc_row(term_2, procs, col_2, col_3, col_4, row_p, 6)
+            curr = term_2.getyx()
 
+            if row_proc > 0:
+                row_p = row_proc
             else:
-                proc_row(term_2, procs, col_2, col_3, col_4, row_p, 5)
-            row_p += 1
+                row_p = 0
 
-        term_2.refresh()
+            h2 = term_size[0] - 1
 
-        # Right column of terminal screen (term_3)
-        curr = term_3.getyx()
-        col_2 = (curr[0], curr[1] + (floor(win_width/5)) - 5)
-        col_3 = (curr[0], curr[1] + (floor((win_width/5)*3)))
+            for c in range(curr[0], h2):
+                if row_p == num_procs:
+                    break
+                curr = term_2.getyx()
+                col_2 = (curr[0], curr[1] + (floor(win_width/5)) - 6)
+                col_3 = (curr[0], curr[1] + (floor((win_width/5)*3)))
+                col_4 = (curr[0], curr[1] + (floor((win_width/5)*4)) + 3)
 
-        proc_head(term_3, col_2, col_3, 7, 8)
+                if procs[row_p]['user'] == 'root':
+                    proc_row(term_2, procs, col_2, col_3, col_4, row_p, 2)
 
-        curr = term_3.getyx()
+                elif procs[row_p]['user'] == users[0]['name']:
+                    proc_row(term_2, procs, col_2, col_3, col_4, row_p, 6)
 
-        h3 = term_size[0] - 1
-        remains = num_procs - row_p
-        if h3 > remains:
-            h3 = remains
+                else:
+                    proc_row(term_2, procs, col_2, col_3, col_4, row_p, 5)
+                row_p += 1
 
-        for a in range(curr[0], h3):
+            term_2.refresh()
+
+            # Right column of terminal screen (term_3)
             curr = term_3.getyx()
-            col_2 = (curr[0], curr[1] + (floor(win_width/5)) - 6)
+            col_2 = (curr[0], curr[1] + (floor(win_width/5)) - 5)
             col_3 = (curr[0], curr[1] + (floor((win_width/5)*3)))
-            col_4 = (curr[0], curr[1] + (floor((win_width/5)*4)) + 3)
 
-            if procs[row_p]['user'] == 'root':
-                proc_row(term_3, procs, col_2, col_3, col_4, row_p, 2)
+            proc_head(term_3, col_2, col_3, 7, 8)
 
-            elif procs[row_p]['user'] == users[0]['name']:
-                proc_row(term_3, procs, col_2, col_3, col_4, row_p, 6)
-            else:
-                proc_row(term_3, procs, col_2, col_3, col_4, row_p, 5)
-            row_p += 1
+            curr = term_3.getyx()
 
-        term_3.refresh()
+            h3 = term_size[0] - 1
+            remains = num_procs - row_p
 
-        time.sleep(0.3)
+            for a in range(curr[0], h3):
+                if row_p == num_procs:
+                    break
+                curr = term_3.getyx()
+                col_2 = (curr[0], curr[1] + (floor(win_width/5)) - 6)
+                col_3 = (curr[0], curr[1] + (floor((win_width/5)*3)))
+                col_4 = (curr[0], curr[1] + (floor((win_width/5)*4)) + 3)
+
+                if procs[row_p]['user'] == 'root':
+                    proc_row(term_3, procs, col_2, col_3, col_4, row_p, 2)
+
+                elif procs[row_p]['user'] == users[0]['name']:
+                    proc_row(term_3, procs, col_2, col_3, col_4, row_p, 6)
+                else:
+                    proc_row(term_3, procs, col_2, col_3, col_4, row_p, 5)
+                row_p += 1
+
+            term_3.refresh()
+
+            time.sleep(0.2)
+
+        except KeyboardInterrupt:
+            return sys.exit('Thank you! Goodbye!')
 
 wrapper(main)
