@@ -10,6 +10,8 @@ and easily readable way. This is something I created for myself so the informati
 in a way that suits my personal needs. I'm running on **MacOsSierra** so some of the information
 is MacOs specific.
 
+![WannaKnow Screenshot](./WannaKnow_screeshot.png?raw=true "Screenshot")
+
 ## What Did I Wanna Know? :squirrel:
 
 Basically I was tired of trying to debug my network by running static commands in the cli like
@@ -25,7 +27,7 @@ behaviour and block processes from executing (which in many cases and blocking s
 connections or process from executing is a good thing, only in this case that was not the purpose I was
 looking for).
 
-## How? :construction: 
+## How? :construction:
 
 WannaKnow is a wrapper around two really nice Python libraries:
 
@@ -91,7 +93,7 @@ fix this so that the app can still run with less permissions and displays only t
 Their are also some crashing issues when the app runs for a while which I'm trying to solve. Some of these crashes
 could probably be avoided with better error management.
 
-## Next Steps :hourglass_flowing_sand: 
+## Next Steps :hourglass_flowing_sand:
 
 Their are a few functionalities I would like to try and implement:
 * Make the information relevant if the user is on Linux or Mac (adapt the specific MacOs process display).
