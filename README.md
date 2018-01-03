@@ -72,7 +72,7 @@ side, information on the various sessions as well as packets coming in and out f
  displayed at the top, alongside a simple legend with basic usage and colour explanation.
 
 Below is the connections window, users can flip through rows of connections by using the keys `'a', 's',
-'d'`. The `'x'` character returns to display the first results.
+'d','w','z'`. The `'x'` character returns to display the first results.
 
 On the right, all the processes are listed along with their `pid` number as well as the parent process name
 and pid. The parent processes are listed in white. The main processes are colour coded: `red` when it's ran as *root*, cyan (or light blue) when it's running as the current user and yellow for any
