@@ -77,6 +77,16 @@ def main(stdscr):
                     row_conn = connect_height * 3
                 curses.flushinp()
 
+            elif k == ord('w'):
+                if num_connects > connect_height * 4:
+                    row_conn = connect_height * 4
+                curses.flushinp()
+
+            elif k == ord('z'):
+                if num_connects > connect_height * 5:
+                    row_conn = connect_height * 5
+                curses.flushinp()
+
             elif k == ord('x'):
                 row_conn = 0
                 curses.flushinp()
