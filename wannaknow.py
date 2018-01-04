@@ -93,35 +93,32 @@ def main(stdscr):
 
             elif k == ord('j'):
                 if num_procs >= term_size[0] * 2 - 2:
-                    row_proc = term_size[0] * 2
+                    row_proc = term_size[0] * 2 - 4
                 curses.flushinp()
 
             elif k == ord('k'):
                 if num_procs >= term_size[0] * 4 - 2:
-                    row_proc = term_size[0] * 4
+                    row_proc = term_size[0] * 4 - 8
                 curses.flushinp()
 
             elif k == ord('l'):
                 if num_procs >= term_size[0] * 6 - 2:
-                    row_proc = term_size[0] * 6
+                    row_proc = term_size[0] * 6 - 12
                 curses.flushinp()
 
             elif k == ord('i'):
                 if num_procs >= term_size[0] * 8 - 2:
-                    row_proc = term_size[0] * 8
+                    row_proc = term_size[0] * 8 - 16
                 curses.flushinp()
 
             elif k == ord('m'):
                 if num_procs >= term_size[0] * 10 - 2:
-                    row_proc = term_size[0] * 10
+                    row_proc = term_size[0] * 10 - 20
                 curses.flushinp()
 
             elif k == ord('b'):
                 row_proc = 0
                 curses.flushinp()
-
-            if row_proc >= num_procs - 1:
-                row_proc = 0
 
             # Define max width and height
             try:
@@ -282,5 +279,7 @@ def main(stdscr):
 
 try:
     wrapper(main)
+except TypeError:
+    sys.exit('"Are you using python3?"\n')
 except Exception:
     sys.exit('"If you don\'t have root privileges, I can\'t help you!"\n')
