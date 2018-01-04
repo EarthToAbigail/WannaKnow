@@ -280,6 +280,6 @@ def main(stdscr):
 try:
     wrapper(main)
 except TypeError:
-    sys.exit('"Are you using python3?"\n')
+    sys.exit('"Are you using python3?"')
 except Exception:
-    sys.exit('"If you don\'t have root privileges, I can\'t help you!"\n')
+    sys.exit('"If you don\'t have root privileges, I can\'t help you!"')
