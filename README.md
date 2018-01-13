@@ -62,7 +62,7 @@ WannaKnow uses Python3 (my version is 3.6.1).
 To use the app:
 
 ```
-pip install psutil  
+pip3 install psutil  
 git clone https://github.com/EarthToAbigail/WannaKnow.git
 sudo python3 wannaknow.py
 ```
