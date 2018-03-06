@@ -110,3 +110,4 @@ Their are a few functionalities I would like to try and implement:
 
 
 :mailbox_closed: Twitter: [@EarthAbigail](https://twitter.com/EarthAbigail)
+:mailbox_closed: Facebook: [EarthToAbigail](https://www.facebook.com/EarthToAbigail/)
